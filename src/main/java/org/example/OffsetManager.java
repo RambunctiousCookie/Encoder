@@ -34,6 +34,7 @@ public class OffsetManager {
         legalCharactersSet = new HashSet<>(Arrays.asList(referenceTable));
         encodeMapper = new HashMap<>();
         decodeMapper = new HashMap<>();
+        updateMappers();
     }
     public char getOffset() {
         return offset;
