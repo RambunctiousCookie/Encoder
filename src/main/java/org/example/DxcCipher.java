@@ -32,7 +32,7 @@ public class DxcCipher implements Cipher {
         Map<Character,Character> encodeMapper = getMapper(offsetIdx,true);
         ////debug here if needed
         //displayMapper(encodeMapper);
-        return constructProcessedString(plainTextChar,encodeMapper);
+        return getOffset(plainText) + constructProcessedString(plainTextChar,encodeMapper);
     }
 
     public String decode (String encodedText){
@@ -40,7 +40,7 @@ public class DxcCipher implements Cipher {
         int offsetIdx = findIdxInReferenceTable(getOffset(encodedText));
         Map<Character,Character> decodeMapper = getMapper(offsetIdx,false);
 
-        return constructProcessedString(encodedTextChar,decodeMapper);
+        return getOffset(encodedText) + constructProcessedString(encodedTextChar,decodeMapper);
     }
 
     private Map<Character,Character> getMapper(int offsetIdx, boolean isEncoding){

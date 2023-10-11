@@ -4,21 +4,19 @@ public class Main {
         DxcCipher dxcCipher = new DxcCipher();
 
         String example = "HELLO WORLD";
-        System.out.println(example);
-
         example = "B"+example;
+        System.out.println(example);
         example = dxcCipher.encode(example);
         System.out.println(example);
 
-        example = "B"+example;
         example = dxcCipher.decode(example);
         System.out.println(example);
 
-        example = "F"+example;
+        example = "F"+example.substring(1);
         example = dxcCipher.encode(example);
         System.out.println(example);
 
-        example = "F"+example;
+        example = example;
         example = dxcCipher.decode(example);
         System.out.println(example);
     }
