@@ -1,7 +1,6 @@
 package org.example;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class OffsetManager {
     //TODO: account for both uppercase and lowercase?
@@ -10,7 +9,9 @@ public class OffsetManager {
     private char offset;
     private int offsetIdx;
     private Character[] referenceTable;
-    private Map<Character,Character> mapper;
+    private Set<Character> legalCharactersSet;
+    private Map<Character,Character> encodeMapper, decodeMapper;
+
     public char getOffset() {
         return offset;
     }
@@ -18,9 +19,13 @@ public class OffsetManager {
         return referenceTable;
     }
 
-    public Map<Character, Character> getMapper() {
-        //TODO: remove this method
-        return mapper;
+    public Map<Character, Character> getEncodeMapper() {
+        //TODO: remove this method after testing
+        return encodeMapper;
+    }
+
+    public Map<Character, Character> getDecodeMapper() {
+        return decodeMapper;
     }
 
     public OffsetManager() {
@@ -30,50 +35,67 @@ public class OffsetManager {
                 '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
                 '(', ')', '*', '+', ',', '-', '.', '/'
         };
-        this.mapper = new HashMap<>();
+        legalCharactersSet = new HashSet<>(Arrays.asList(referenceTable));
+        encodeMapper = new HashMap<>();
+        decodeMapper = new HashMap<>();
     }
 
     public void updateOffset(char newOffset){
-        if (!offsetValidator(newOffset))
+        if (!isCharValid(newOffset))
             throw new IllegalArgumentException("Input character array is not valid given the reference table.");
         else{
             this.offset = newOffset;
             this.offsetIdx = findIdxInReferenceTable(newOffset);
 
             //TODO: move to decode/encode?
-            updateMapper();
+            updateMappers();
         }
     }
 
-    private void updateMapper(){
+    private void updateMappers(){
         int referenceTableRange = referenceTable.length;
         for(int i=0;i<referenceTableRange;i++){
             //int newIdx = i-offsetIdx;
-            int newIdx = ((i-offsetIdx) % referenceTableRange + referenceTableRange) % referenceTableRange;
-            mapper.put(referenceTable[i],referenceTable[newIdx]);
+            int newIdxEncode = ((i-offsetIdx) % referenceTableRange + referenceTableRange) % referenceTableRange;
+            encodeMapper.put(referenceTable[i],referenceTable[newIdxEncode]);
+
+            int newIdxDecode = ((i+offsetIdx) % referenceTableRange);
+            decodeMapper.put(referenceTable[i],referenceTable[newIdxDecode]);
         }
     }
 
     public String encode (String plainText){
-        
+//        if(!isStringValid(plainText))
+//            throw new IllegalArgumentException("String contains invalid characters.");
 
-        //TODO:
+        char[] plainTextChar = plainText.toCharArray();
+        String encodedString = "";
+
+        //TODO: streams?
         for (int i=0;i<plainText.length();i++){
-
+            if(isCharValid(plainTextChar[i]))
+                encodedString += encodeMapper.get(plainTextChar[i]);
+            else
+                encodedString += plainTextChar[i];
         }
 
-
-        for(int i=0;i<referenceTable.length;i++){
-            //int newIdx = i-offsetIdx;
-            int newIdx = ((i-offsetIdx) % referenceTable.length + referenceTable.length) % referenceTable.length;
-            mapper.put(referenceTable[i],referenceTable[newIdx]);
-        }
-
-        return "";
+        return encodedString;
     }
     public String decode (String encodedText){
-        //TODO:
-        return "";
+//        if(!isStringValid(encodedText))
+//            throw new IllegalArgumentException("String contains invalid characters.");
+
+        char[] encodedTextChar = encodedText.toCharArray();
+        String decodedString = "";
+
+        for (int i=0;i<encodedText.length();i++){
+            if(isCharValid(encodedTextChar[i]))
+                decodedString += decodeMapper.get(encodedTextChar[i]);
+            else
+                decodedString += encodedTextChar[i];
+        }
+
+        return decodedString;
     }
 
 //    private void resetMapper(){
@@ -84,12 +106,21 @@ public class OffsetManager {
 //        }
 //    }
 
-    private boolean offsetValidator(char target){
-        for (Character elem : referenceTable){
-            if (elem == target)
-                return true;
+    private boolean isStringValid(String target){
+        //return target.chars().allMatch(legalCharactersSet::contains);
+
+        char[] targetToUse = target.toCharArray();
+        for(int i=0;i<target.length();i++){
+            if (!legalCharactersSet.contains(targetToUse[i])){
+                System.out.println("DEBUG: Illegal character "+targetToUse[i]+" at position "+i);
+                return false;
+            }
         }
-        return false;
+        return true;
+    }
+    private boolean isCharValid(char target){
+        // Use a field variable for HashSet because we will check strings not just single char
+        return legalCharactersSet.contains(target);
     }
 
     public int findIdxInReferenceTable(Character character){
