@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -8,44 +9,26 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
-        OffsetManager offsetManagerOne = new OffsetManager('B',true);
-        OffsetManager offsetManagerTwo = new OffsetManager('F',true);
-        List<OffsetManager> offsetManagers = new ArrayList<>();
-        offsetManagers.add(offsetManagerOne);
-        offsetManagers.add(offsetManagerTwo);
+        Cipher cipherOne = new Cipher('B',true);
+        Cipher cipherTwo = new Cipher('F',true);
+        List<Cipher> ciphers = new ArrayList<>();
+        ciphers.add(cipherOne);
+        ciphers.add(cipherTwo);
 
-        String exampleOne = "HELLO WORLD";
-        String exampleTwo = "Hello World";
+        String example = "HELLO WORLD";
 
-
-
-//        System.out.println(exampleOne);
-//        exampleOne = offsetManagerOne.encode(exampleOne);
-//        System.out.println(exampleOne);
-//        exampleOne = offsetManagerOne.decode(exampleOne);
-//        System.out.println(exampleOne+"\n");
-//
-//
-//        System.out.println(exampleTwo);
-//        exampleTwo = offsetManagerOne.encode(exampleTwo);
-//        System.out.println(exampleTwo);
-//        exampleTwo = offsetManagerOne.decode(exampleTwo);
-//        System.out.println(exampleTwo);
-
-        for (OffsetManager om : offsetManagers){
-            System.out.println(exampleOne);
-            exampleOne = om.encode(exampleOne);
-            System.out.println(exampleOne);
-            exampleOne = om.decode(exampleOne);
-            System.out.println(exampleOne+"\n");
-
-            System.out.println(exampleTwo);
-            exampleTwo = om.encode(exampleTwo);
-            System.out.println(exampleTwo);
-            exampleTwo = om.decode(exampleTwo);
-            System.out.println(exampleTwo+"\n");
+        //basic OOP polymorphism
+        for (Cipher om : ciphers){
+            System.out.println(example);
+            example = om.encode(example);
+            System.out.println(example);
+            example = om.decode(example);
+            System.out.println(example+"\n");
         }
 
-
+        ////For debugging
+//        cipherOne.getEncodeMapper().entrySet().stream().sorted(Comparator.comparingInt(entry -> cipherOne.findIdxInReferenceTable(entry.getKey()))).forEach(System.out::println);
+//        System.out.println();
+//        cipherOne.getDecodeMapper().entrySet().stream().sorted(Comparator.comparingInt(entry -> cipherOne.findIdxInReferenceTable(entry.getKey()))).forEach(System.out::println);
     }
 }

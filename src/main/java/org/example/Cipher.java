@@ -2,14 +2,14 @@ package org.example;
 
 import java.util.*;
 
-public class OffsetManager {
+public class Cipher {
     private char offset;
     private boolean convertCase;
     private final Character[] referenceTable;
     private Set<Character> legalCharactersSet;
     private Map<Character,Character> encodeMapper, decodeMapper;
 
-    public OffsetManager() {
+    public Cipher() {
         convertCase = true;
         //inline char array for faster instantiation than list, plus it is a size-immutable reference table
         referenceTable = new Character[] {
@@ -22,7 +22,7 @@ public class OffsetManager {
         encodeMapper = new HashMap<>();
         decodeMapper = new HashMap<>();
     }
-    public OffsetManager(char offset, boolean convertCase) {
+    public Cipher(char offset, boolean convertCase) {
         this.offset = offset;
         this.convertCase = convertCase;
         referenceTable = new Character[] {
@@ -56,6 +56,14 @@ public class OffsetManager {
     public void setConvertCase(boolean convertCase) {
         this.convertCase = convertCase;
     }
+//    //Debugging;
+//    public Map<Character, Character> getEncodeMapper() {
+//
+//        return encodeMapper;
+//    }
+//    public Map<Character, Character> getDecodeMapper() {
+//        return decodeMapper;
+//    }
 
     public String encode (String plainText){
         if(convertCase)
