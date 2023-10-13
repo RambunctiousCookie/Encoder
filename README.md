@@ -3,7 +3,7 @@ This is a simple tool that is able to encode plaintext to an obfuscated string, 
 
 ## Structure
 The main OffsetCipher class implements the Cipher interface, including its interface methods. 
-This is done intentionally for polymorphism and code reusability. It also dheres to the Strategy design pattern.
+This is done intentionally for polymorphism and code reusability. It also adheres to the Strategy design pattern.
 
 ### Logic
 - The basis of the cipher is that the given offset is converted into its index notation within the reference table.
