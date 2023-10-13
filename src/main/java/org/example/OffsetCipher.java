@@ -2,7 +2,7 @@ package org.example;
 
 import java.util.*;
 
-public class DxcCipher implements Cipher {
+public class OffsetCipher implements Cipher {
     private static final Character[] referenceTable = new Character[] {
             //inline char array for faster instantiation than list, plus it is a size-immutable reference table
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
@@ -11,7 +11,7 @@ public class DxcCipher implements Cipher {
             '(', ')', '*', '+', ',', '-', '.', '/'
     };
     private static final Set<Character> legalCharactersSet = new HashSet<>(Arrays.asList(referenceTable));
-    public DxcCipher() {/*empty constructor*/}
+    public OffsetCipher() {/*empty constructor*/}
     public Character[] getReferenceTable() {
         return referenceTable;
     }
