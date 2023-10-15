@@ -11,7 +11,8 @@ This is done intentionally for polymorphism and code reusability. It also adhere
 - Finally, the Mapper(s) are used in conjunction with stringbuilders to encode or decode the given text.
 
 ### OffsetCipher
-- Designed to be as modular as possible.
+- Designed to be modular
+  - Allow user to set their own custom reference table (using instanced `setReferenceTable()`)
 - Performs logical checks before carrying out processes.
   - i.e whether the first character/offset is a valid offset within the reference table.
 - Applies a simple Modulo strategy to wrap around the reference table where necessary.
