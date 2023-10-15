@@ -4,7 +4,6 @@ import java.util.*;
 
 public class OffsetCipher implements Cipher {
     private Character[] referenceTable;
-    private Set<Character> legalCharactersSet;
     public OffsetCipher() {
         referenceTable = new Character[] {
                 //inline char array for faster instantiation than list, plus it is a size-immutable reference table
@@ -13,15 +12,12 @@ public class OffsetCipher implements Cipher {
                 '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
                 '(', ')', '*', '+', ',', '-', '.', '/'
         };
-        legalCharactersSet = new HashSet<>(Arrays.asList(referenceTable));
-
     }
     public Character[] getReferenceTable() {
         return referenceTable;
     }
     public void setReferenceTable(Character[] referenceTable) {
         this.referenceTable = referenceTable;
-        this.legalCharactersSet = new HashSet<>(Arrays.asList(referenceTable));
     }
 
     public char getOffset(String target) {
@@ -86,8 +82,7 @@ public class OffsetCipher implements Cipher {
     }
 
     private boolean isCharValid(Character target){
-        return legalCharactersSet.contains(target);
-        //return Arrays.stream(referenceTable).anyMatch(element -> element == target);
+        return Arrays.stream(referenceTable).anyMatch(element -> element == target);
     }
 
     private void displayMapper(Map<Character,Character> mapper){
