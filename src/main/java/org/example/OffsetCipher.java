@@ -51,7 +51,7 @@ public class OffsetCipher implements Cipher {
     private Map<Character,Character> getMapper(int offsetIdx, boolean isEncoding){
         Map<Character,Character> mapper = new HashMap<>();
         int referenceTableRange = referenceTable.length;
-        for(int i=0; i<referenceTableRange; i++){
+        for (int i=0; i<referenceTableRange; i++) {
             int newIdx;
             if (isEncoding)
                 newIdx = ((i-offsetIdx) % referenceTableRange + referenceTableRange) % referenceTableRange;

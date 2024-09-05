@@ -25,7 +25,7 @@ public class OffsetCipherTest {
         offsetCipher = new OffsetCipher();
         hwString = "HELLO WORLD";
 
-        testRounds = 99;   //TODO: You can set the number of rounds/loops for the robustness test here.
+        testRounds = 99999;   //TODO: You can set the number of rounds/loops for the robustness test here.
     }
 
     @BeforeEach
